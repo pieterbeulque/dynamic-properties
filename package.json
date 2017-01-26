@@ -2,9 +2,16 @@
   "name": "dynamic-properties",
   "version": "0.1.0",
   "description": "An easy way to handle repaint triggering properties in your JS, with value caching & cache invalidation on resize (throttled).",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "src/index.js",
   "repository": "https://github.com/mrhenry/dynamic-properties",
   "author": "@mrhenry",
   "license": "MIT",
-  "devDependencies": {}
+  "scripts": {
+    "build": "babel src --out-dir lib --presets=babel-preset-es2015"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0"
+  }
 }
