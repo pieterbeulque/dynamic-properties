@@ -1,6 +1,6 @@
 {
   "name": "dynamic-properties",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "An easy way to handle repaint triggering properties in your JS, with value caching & cache invalidation on resize (throttled).",
   "main": "lib/index.js",
   "module": "src/index.js",
