@@ -1,6 +1,8 @@
-export default class DynamicProperties {
+export default class DynamicProperties extends EventTarget {
 
 	constructor(properties = {}, settings = { throttle: 64 }) {
+		super();
+
 		let cached = {};
 
 		const addProperty = (key, getter, element = null) => {
@@ -49,6 +51,9 @@ export default class DynamicProperties {
 			resizeTimeout = setTimeout(() => {
 				cached = {};
 				resizeTimeout = undefined;
+
+				const change = new Event('change');
+				this.dispatchEvent(change);
 			}, settings.throttle);
 		});
 	}
