@@ -1,6 +1,7 @@
-logs
+/logs
 *.log
 npm-debug.log*
 .npm
-node_modules
+/node_modules
 .DS_Store
+/dist

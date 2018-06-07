@@ -24,26 +24,24 @@ export default (() => {
 						}
 
 						return cached[key];
-					}
+					},
 				});
 
 				return this;
 			};
 
-			for (let key in properties) {
-				const getter = properties[key];
-
+			Object.entries(properties).forEach(([key, getter]) => {
 				if (typeof getter === 'function') {
 					addProperty(key, getter);
 				} else if (typeof getter !== 'string' && getter.length) {
 					// Lazy array check
 					addProperty(key, getter[0], getter[1] || window);
 				}
-			}
+			});
 
 			// Reset cache on resize
 			let resizeTimeout;
-			window.addEventListener('resize', e => {
+			window.addEventListener('resize', () => {
 				if (resizeTimeout) {
 					clearTimeout(resizeTimeout);
 				}
@@ -69,5 +67,5 @@ export default (() => {
 		dispatchEvent(...args) {
 			EMITTER.dispatchEvent(...args);
 		}
-	}
+	};
 })();
