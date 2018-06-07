@@ -1,75 +1,73 @@
-const EMITTER = Symbol('EMITTER');
+export default (() => {
+	const EMITTER = document.createDocumentFragment();
 
-export default class DynamicProperties {
+	return class DynamicProperties {
+		constructor(properties = {}, settings = { throttle: 64 }) {
+			let cached = {};
 
-	constructor(properties = {}, settings = { throttle: 64 }) {
-		let cached = {};
-
-		this[EMITTER] = document.createDocumentFragment();
-
-		const addProperty = (key, getter, element = null) => {
-			if (typeof this[key] !== 'undefined') {
-				console.warn(key, 'is already defined in this property list');
-				return false;
-			}
-
-			Object.defineProperty(this, key, {
-				enumerable: true,
-				configurable: true,
-				get: () => {
-					if (typeof cached[key] === 'undefined') {
-						if (element) {
-							cached[key] = getter.call(element);
-						} else {
-							cached[key] = getter();
-						}
-					}
-
-					return cached[key];
+			const addProperty = (key, getter, element = null) => {
+				if (typeof this[key] !== 'undefined') {
+					console.warn(key, 'is already defined in this property list');
+					return false;
 				}
-			});
 
-			return this;
-		};
+				Object.defineProperty(this, key, {
+					enumerable: true,
+					configurable: true,
+					get: () => {
+						if (typeof cached[key] === 'undefined') {
+							if (element) {
+								cached[key] = getter.call(element);
+							} else {
+								cached[key] = getter();
+							}
+						}
 
-		for (let key in properties) {
-			const getter = properties[key];
+						return cached[key];
+					}
+				});
 
-			if (typeof getter === 'function') {
-				addProperty(key, getter);
-			} else if (typeof getter !== 'string' && getter.length) {
-				// Lazy array check
-				addProperty(key, getter[0], getter[1] || window);
+				return this;
+			};
+
+			for (let key in properties) {
+				const getter = properties[key];
+
+				if (typeof getter === 'function') {
+					addProperty(key, getter);
+				} else if (typeof getter !== 'string' && getter.length) {
+					// Lazy array check
+					addProperty(key, getter[0], getter[1] || window);
+				}
 			}
+
+			// Reset cache on resize
+			let resizeTimeout;
+			window.addEventListener('resize', e => {
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout);
+				}
+
+				resizeTimeout = setTimeout(() => {
+					cached = {};
+					resizeTimeout = undefined;
+
+					const change = new Event('change');
+					this.dispatchEvent(change);
+				}, settings.throttle);
+			});
 		}
 
-		// Reset cache on resize
-		let resizeTimeout;
-		window.addEventListener('resize', e => {
-			if (resizeTimeout) {
-				clearTimeout(resizeTimeout);
-			}
+		addEventListener(...args) {
+			EMITTER.addEventListener(...args);
+		}
 
-			resizeTimeout = setTimeout(() => {
-				cached = {};
-				resizeTimeout = undefined;
+		removeEventListener(...args) {
+			EMITTER.removeEventListener(...args);
+		}
 
-				const change = new Event('change');
-				this.dispatchEvent(change);
-			}, settings.throttle);
-		});
+		dispatchEvent(...args) {
+			EMITTER.dispatchEvent(...args);
+		}
 	}
-
-	addEventListener(...args) {
-		this[EMITTER].addEventListener(...args);
-	}
-
-	removeEventListener(...args) {
-		this[EMITTER].removeEventListener(...args);
-	}
-
-	dispatchEvent(...args) {
-		this[EMITTER].dispatchEvent(...args);
-	}
-
-}
+})();
