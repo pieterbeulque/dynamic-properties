@@ -1,9 +1,11 @@
-export default class DynamicProperties extends EventTarget {
+const EMITTER = Symbol('EMITTER');
+
+export default class DynamicProperties {
 
 	constructor(properties = {}, settings = { throttle: 64 }) {
-		super();
-
 		let cached = {};
+
+		this[EMITTER] = document.createDocumentFragment();
 
 		const addProperty = (key, getter, element = null) => {
 			if (typeof this[key] !== 'undefined') {
@@ -56,6 +58,18 @@ export default class DynamicProperties extends EventTarget {
 				this.dispatchEvent(change);
 			}, settings.throttle);
 		});
+	}
+
+	addEventListener(...args) {
+		this[EMITTER].addEventListener(...args);
+	}
+
+	removeEventListener(...args) {
+		this[EMITTER].removeEventListener(...args);
+	}
+
+	dispatchEvent(...args) {
+		this[EMITTER].dispatchEvent(...args);
 	}
 
 }
