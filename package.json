@@ -1,6 +1,6 @@
 {
   "name": "dynamic-properties",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An easy way to handle repaint triggering properties in your JS, with value caching & cache invalidation on resize (throttled).",
   "main": "dist/dynamic-properties.js",
   "umd:main": "dist/dynamic-properties.umd.js",
