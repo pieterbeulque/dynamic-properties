@@ -14,7 +14,13 @@ export default function dynamicProperties(properties = {}, settings = { throttle
     EMITTER.dispatchEvent(...args);
   };
 
-  const store = { addEventListener, removeEventListener, dispatchEvent };
+  const $clear = () => {
+    cached = {};
+  };
+
+  const store = {
+    addEventListener, removeEventListener, dispatchEvent, $clear,
+  };
 
   const addProperty = (key, getter, element = null) => {
     if (typeof store[key] !== 'undefined') {
