@@ -5,28 +5,22 @@
   "main": "dist/dynamic-properties.js",
   "umd:main": "dist/dynamic-properties.umd.js",
   "module": "dist/dynamic-properties.m.js",
-  "source": "dynamic-properties.js",
+  "source": "dynamic-properties.ts",
   "repository": "https://github.com/pieterbeulque/dynamic-properties",
   "author": "@pieterbeulque",
   "license": "MIT",
-  "eslintConfig": {
-    "extends": "airbnb-base",
-    "env": {
-      "browser": true
-    }
-  },
   "files": [
     "dist",
     "dynamic-properties.js"
   ],
   "scripts": {
-    "lint": "eslint --fix dynamic-properties.js",
+    "lint": "eslint dynamic-properties.ts",
     "build": "microbundle"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "microbundle": "^0.12.0"
+    "microbundle": "^0.12.0",
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0"
   }
 }
