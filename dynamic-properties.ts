@@ -1,14 +1,14 @@
-type Property = (element?: Element) => unknown;
+export type Property = (element?: Element) => unknown;
 
-interface Properties {
+export interface Properties {
   [key: string]: Property | [Property, Element];
 }
 
-interface Cache {
+export interface Cache {
   [key: string]: unknown;
 }
 
-interface Store {
+export interface Store {
   addEventListener: (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void;
   removeEventListener: (type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) => void;
   dispatchEvent: (event: Event) => boolean;
